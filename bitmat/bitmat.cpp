@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include "bitmat.hpp"
+#include <stdio.h>
 /// Checks out: if argument less than maximum required
 /// rows into matrix.
 /// \param x current row index
@@ -24,10 +25,10 @@ static bool valid_column(uint8_t x, bitmat& i){
 /// \param i row
 /// \param j column
 /// \param instance instance of bitmat
-void bitmat_set( bitmat& instance, uint8_t i, uint8_t j) {
+void bitmat_set(bitmat& instance, uint8_t i, uint8_t j) {
     if (!valid_column(j, instance) || !valid_row(i, instance))
         return;
-
+    
     instance.data[i] |= (1ull << j);
 }
 /// Drop the set flag by current address
@@ -60,13 +61,13 @@ bool bitmat_get(bitmat& instance, uint8_t i, uint8_t j) {
 /// Prints bit matrix into console
 /// \param instance initialized bitmat instance
 void bitmat_print(bitmat& instance) {
-    // There's many different ways to implement one function
-    // 1. reminder of integer division by 2 returns 0 or 1 -> acceptable
-    // 2. static_cast of boolean type to integers returns 0 or 1 -> acceptable
     for (int i = 0; i < instance.rows; ++i) {
         for (int j = 0; j < instance.columns; ++j) {
+            // C++ implicitly cast bool into integer value
+            // std::cout << true; returns 1 instead of true 
             std::cout << bitmat_get(instance, i, j) << " ";
         }
+        // Padding: Return caret after the row ends 
         std::cout << std::endl;
     }
 }
@@ -86,4 +87,25 @@ void bitmat_fprint(bitmat& instance, char * path){
         stream.out << '\n';
     }
     stream.close();
+}
+/// Tries to read bit matrix from file
+/// \param instance initialized instance of bitmatrix
+/// \param path immutable string of filename
+/// \return 
+bool bitmat_try_load(bitmat& instance, const char * path) {
+    std::ifstream stream(path);
+    
+    if(!stream){
+        std::cerr << "Unable to open" << std::endl;
+        return false;
+    }
+
+    if(!stream.is_open()) 
+        return false;
+    
+    while(!stream.eof()) {
+
+    }
+
+    return false;
 }
