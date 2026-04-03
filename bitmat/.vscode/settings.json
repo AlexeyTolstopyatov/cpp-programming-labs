@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        ".fantomasignore": "ignore",
+        "*.zig": "zig",
+        "*.zon": "zig",
+        "iostream": "cpp",
+        "fstream": "cpp"
+    }
+}
